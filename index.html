@@ -3,23 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>TO DO APP by Gian Sarinas</title>
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    
-    <h2>TO DO APP</h2>
-    <p>List your to do's here!</p>
-    <input type="text" id="inputTask">
+    <div class="container">
+        <div class="to-do">
+            <h2>TO DO LIST <img src="./images/icon.png" alt=""></h2>
+            <div class="row">
+                <input type="text" id="input-box" placeholder="Add your Task">
+            <button id="addTaskBtn">Add task</button>
+            </div>
+            <ul id="list-container">
+                <!-- <li class="checked">Task 1</li>
+                <li>Task 2</li>
+                <li>Task 3</li> -->
+            </ul>
+            
 
-    <div class="taskPage">
-        <ul id="showTask"></ul>
+        </div>
     </div>
     
     
-
-    <button id="addTaskBtn">ADD TASK</button>
-    <button id="removeTaskBtn">REMOVE TASK</button>
 
     <script src="script.js"></script>
 </body>

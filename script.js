@@ -1,35 +1,54 @@
-const inputTask = document.getElementById('inputTask') // For INPUT TASK
-const showTask = document.getElementById('showTask') // For OUTPUT TASK
-const addTaskBtn = document.getElementById('addTaskBtn') // Add Task Btn
-const removeTaskBtn = document.getElementById('removeTaskBtn') // Remove Task btn
+const inputTask = document.getElementById('input-box') // ID for input Box
+const listContainer = document.getElementById('list-container') // id for list container
+const addTaskButton = document.getElementById('addTaskBtn') // id for add task button
 
-let taskList = [] //The "database" which holds the task coming from inputTask 
 
-let tasksFromLocalStorage = JSON.parse(localStorage.getItem("taskList")) // Gets the tasks stored from localStorage
-
-if(tasksFromLocalStorage){ // Boolean - checking if tasksFromLocalStorage has a value stored or if its null
-    taskList = tasksFromLocalStorage // gets the tasks stored from localStorage and stores it in taskList
-    render(taskList) // Renders the tasksList for HTML
+function saveTask(){ // Responsible for storing tasks on local storage
+    localStorage.setItem("myTasks", listContainer.innerHTML)
 }
 
-addTaskBtn.addEventListener('click', () =>{ //Adds the tasks to the "database"
-    taskList.push(inputTask.value) // puts the value from input task to "database"
-    localStorage.setItem("taskList", JSON.stringify(taskList)) //Converts the tasks to string for localStorage purposes
-    inputTask.value = "" // clears the inputTask for a fresh new entry
-    render(taskList) // renders the List of tasks
-})
 
-removeTaskBtn.addEventListener('dblclick', () =>{
-    localStorage.clear() // clears the localStorage
-    taskList=[] // clears the "database"
-    render(taskList)
-})
 
-function render(tasks){ // Responsible for rendering the tasks to the screen
-    let taskArray = [] // temporary database holder for the tasks for rendering
-    for(let i = 0; i < tasks.length; i++){ //Loops through every tasks and converts it to list items
-        taskArray += `
-        <li>${tasks[i]}</li>`
+addTaskButton.addEventListener('click', () =>{ // Responsible for adding tasks
+    let li = document.createElement("li") // Converts tasks into lists element
+    let span = document.createElement("span") // Creates the x button
+
+    if(inputTask.value === "") // Responsible for triggering alert if add button is clicked w/o input
+        {
+        alert("Please type your task first!")
     }
-    showTask.innerHTML = taskArray // renders the tasks that is converted to list items
+    else // Responsible for creating the task 
+    {
+        li.innerHTML = inputTask.value // Gets the value or task from input
+        span.innerHTML = "\u00d7" // Creates the x button
+        li.appendChild(span) // Renders the X button besides the task list
+        listContainer.appendChild(li) // Renders the task as list items on the List Container
+    }
+    inputTask.value = "" // Clears the Input box whenever you add a task
+    saveTask() // Calls the function saveTask 
+})
+
+listContainer.addEventListener('click', (e) =>{ // Responsible for listening to clicks
+    if(e.target.tagName === "LI"){ // Responsible for toggling the check and uncheck marks
+        e.target.classList.toggle("checked")
+        saveTask()
+    }
+    else if (e.target.tagName === "SPAN"){ // Reponsible for deleting tasks one by one
+        e.target.parentElement.remove()
+        saveTask()
+    }
+})
+
+
+
+function showTasks(){ // Responsible for showing tasks if there are any stored whenever the browser is refreshed or re-opened
+  const savedTasks = listContainer.innerHTML = localStorage.getItem("myTasks")
+  if(savedTasks){ // Checks if the local storage is true or null
+    listContainer.innerHTML = savedTasks
+  }
+  else{ //handles the null part by rendering ""
+    listContainer.innerHTML = ""
+  }
 }
+
+showTasks() // Calls the showtask whenever the page is loaded
