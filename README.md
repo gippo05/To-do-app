@@ -14,7 +14,6 @@ A simple and responsive to-do list application built with HTML, CSS, and JavaScr
 
 📱 Responsive design for all devices
 
-🌙 Modern dark/light theme toggle (optional)
 
 🛠️ Tech Stack
 HTML5 – Structure
